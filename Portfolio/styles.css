@@ -1,0 +1,8 @@
+:root {
+    --size: 1.2;
+}
+.command {
+    cursor: pointer;
+    color: white; /* Adjust color as needed */
+    text-decoration: underline; /* Optional: underline to indicate clickability */
+}
