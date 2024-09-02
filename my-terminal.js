@@ -6,9 +6,8 @@ $(document).ready(function() {
         education: [
             '',
             '<white>education</white>',
-    
-            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai>Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
-            '* <a href="https://www.northeastern.edu/">Northeastern University</a> Masters of Science <yellow>"Informaton Systems"</yellow> 2023-2025',
+            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai">Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
+            '* <a href="https://www.northeastern.edu/">Northeastern University</a> Masters of Science <yellow>"Information Systems"</yellow> 2023-2025',
             ''
         ],
         experience: [
@@ -31,7 +30,7 @@ $(document).ready(function() {
             [
                 ['All the Earthquakes',
                  'https://github.com/baiganas/capstone/blob/main/Anasbaig_002837748_Capstone.ipynb',
-                 'Analysis and Prediction of Earthquakes Using Decsion Tree, Regression, XGboost and Random Forest'
+                 'Analysis and Prediction of Earthquakes Using Decision Tree, Regression, XGboost and Random Forest'
                 ],
                 ['Musify',
                  'https://github.com/anasbaig10/spotify_clone',
@@ -48,7 +47,7 @@ $(document).ready(function() {
                 ['AWS-DataEngineering',
                 'https://github.com/anasbaig10/AWS-DataEngineering',
                 'Doing an ETL on Spotify 2023 Music data using Kafka and publishing on AWS also Leveraging services like S3, Athena, Glue, EC2'
-                   ],
+                ],
             ].map(([name, url, description = '']) => {
                 return `* <a href="${url}">${name}</a> &mdash; <white>${description}</white>`;
             }),
@@ -57,99 +56,33 @@ $(document).ready(function() {
         skills: [
             '',
             '<white>languages</white>',
-    
             [
-                'JavaScript',
-                'TypeScript',
-                'REST API',
-                'JQuery',
-                'Python',
-                'SQL',
-                'PHP',
-                'Bash',
-                'ReactJs',
-                'Big Query',
-                'CI/CD',
-                'Agile Scrum'
+                'JavaScript', 'TypeScript', 'REST API', 'JQuery', 'Python', 'SQL', 'PHP', 'Bash', 'ReactJs', 'Big Query', 'CI/CD', 'Agile Scrum'
             ].map(lang => `* <yellow>${lang}</yellow>`),
             '',
             '<white>libraries</white>',
             [
-                'React.js',
-                'Redux',
-                'Jest',
-                'Node.js',
-                'ES6',
-                'Data Visualization',
-                'Postman',
-                'Scikit-learn',
-                'Keras',
-                'Matplotlib'
-
+                'React.js', 'Redux', 'Jest', 'Node.js', 'ES6', 'Data Visualization', 'Postman', 'Scikit-learn', 'Keras', 'Matplotlib'
             ].map(lib => `* <green>${lib}</green>`),
             '',
             '<white>tools</white>',
             [
-                'Docker',
-                'git',
-                'GNU/Linux',
-                'AWS',
-                'GCP',
-                'Snowflake'
-            ].map(lib => `* <blue>${lib}</blue>`),
+                'Docker', 'git', 'GNU/Linux', 'AWS', 'GCP', 'Snowflake'
+            ].map(tool => `* <blue>${tool}</blue>`),
             ''
         ].flat()
     };
 
-    // Create a list of commands with descriptions
     const commandsWithDescriptions = [
-        { name: 'help', description: 'Display the list of available commands.' },
-        { name: 'echo', description: 'Echo the input text back to you.' },
-        { name: 'joke', description: 'Tell a random joke.' },
+        { name: 'help', description: 'Display available sections.' },
         { name: 'cd', description: 'Change the current directory.' },
         { name: 'ls', description: 'List the contents of the current directory.' },
-        { name: 'credits', description: 'Show the credits for this terminal.' },
+        { name: 'clear', description: 'Clear the terminal screen.' }
     ];
 
     const commands = {
         help() {
-            console.log('Help command called');
-            term.echo(`List of available commands: ${help}`, { raw: true });
-        },
-        echo(...args) {
-            if (args.length > 0) {
-                term.echo(args.join(' '));
-            }
-        },
-        async joke() {
-            const res = await fetch(url);
-            const data = await res.json();
-            (async () => {
-                if (data.type == 'twopart') {
-                    // we set clear the prompt to don't have any
-                    // flashing between animations
-                    const prompt = this.get_prompt();
-                    this.set_prompt('');
-                    // as said before in every function, passed directly
-                    // to terminal, you can use `this` object
-                    // to reference terminal instance
-                    await this.echo(`Q: ${data.setup}`, {
-                        delay: 50,
-                        typing: true
-                    });
-                    await this.echo(`A: ${data.delivery}`, {
-                        delay: 50,
-                        typing: true
-                    });
-                    // we restore the prompt
-                    this.set_prompt(prompt);
-                } else if (data.type === 'single') {
-                    await this.echo(data.joke, {
-                        delay: 50,
-                        typing: true
-                    });
-                }
-            })();
+            displayMainSections();
         },
         cd(dir = null) {
             const dirs = Object.keys(directories);
@@ -167,18 +100,17 @@ $(document).ready(function() {
             const dirs = Object.keys(directories);
             if (dir) {
                 if (dir.match(/^~\/?$/)) {
-                    // ls ~ or ls ~/
                     print_dirs();
                 } else if (dir.startsWith('~/')) {
                     const path = dir.substring(2);
                     if (path in directories) {
-                        this.echo(directories[path].join('\n'));
+                        this.echo(directories[path].join('\n'), {raw: true});
                     } else {
                         this.error('Invalid directory');
                     }
                 } else if (cwd === root) {
                     if (dir in directories) {
-                        this.echo(directories[dir].join('\n'));
+                        this.echo(directories[dir].join('\n'), {raw: true});
                     } else {
                         this.error('Invalid directory');
                     }
@@ -191,19 +123,11 @@ $(document).ready(function() {
                 print_dirs();
             } else {
                 const dir = cwd.substring(2);
-                this.echo(directories[dir].join('\n'));
+                this.echo(directories[dir].join('\n'), {raw: true});
             }
         },
-        credits() {
-            return [
-                '',
-                '<white>Used libraries:</white>',
-                '* <a href="https://terminal.jcubic.pl">jQuery Terminal</a>',
-                '* <a href="https://github.com/patorjk/figlet.js/">Figlet.js</a>',
-                '* <a href="https://github.com/jcubic/isomorphic-lolcat">Isomorphic Lolcat</a>',
-                '* <a href="https://jokeapi.dev/">Joke API</a>',
-                ''
-            ].join('\n');
+        clear() {
+            term.clear();
         }
     };
 
@@ -214,9 +138,17 @@ $(document).ready(function() {
         }).join('\n'), { raw: true });
     }
 
+    function displayMainSections() {
+        const sections = Object.keys(directories).map(dir => 
+            `<u><blue class="section">${dir}</blue></u>`
+        ).join('  ');
+        term.echo('Available sections (click to explore):', { raw: true });
+        term.echo(sections, { raw: true });
+    }
+
     const font = 'Slant';
-    const user = 'Hello';
-    const server = 'guest';
+    const user = 'visitor';
+    const server = 'anas-portfolio';
 
     function prompt() {
         return `<green>${user}@${server}</green>:<blue>${cwd}</blue>$ `;
@@ -248,16 +180,22 @@ $(document).ready(function() {
     term.on('click', '.directory', function() {
         const dir = $(this).text();
         term.exec(`cd ~/${dir}`);
+        term.exec(`ls`);
     });
 
     term.on('click', '.command', function() {
         const command = $(this).text();
         term.exec(command);
-     });
+    });
+
+    term.on('click', '.section', function() {
+        const section = $(this).text();
+        term.exec(`cd ${section}`);
+        term.exec('ls');
+    });
 
     function render(text) {
         const cols = term.cols();
-        console.log('Rendering text with width:', cols);
         return figlet.textSync(text, {
             font: font,
             width: cols,
@@ -265,19 +203,26 @@ $(document).ready(function() {
         });
     }
 
-    function trim(str) {
-        return str.replace(/[\n\s]+$/, '');
-    }
-
-    const commandsStyled = commandsWithDescriptions.map(cmd => {
-        return `<white class="command">${cmd.name}</white>: ${cmd.description}`;
-    }).join('\n');
-
     function ready() {
         console.log('Ready function called');
         term.echo(() => {
             const ascii = render("Anas Baig Portfolio");
-            return `${ascii}\nWelcome to my Terminal Portfolio\n\nYou can use the following commands:\n\n${commandsStyled}\n`;
+            const instructions = `
+Welcome to my Interactive Terminal Portfolio!
+
+How to use:
+1. Type 'help' or click on it to see available sections.
+2. Click on any blue underlined text to explore that section.
+3. Use 'cd ..' to return to the main menu.
+4. Type 'clear' to clear the screen.
+
+You can use the following commands:
+
+${commandsWithDescriptions.map(cmd => `${cmd.name}: ${cmd.description}`).join('\n')}
+
+Explore my portfolio by typing 'help' or using the commands above:
+`;
+            return `${ascii}\n${instructions}\n`;
         }, { ansi: true });
     }
 
@@ -287,28 +232,14 @@ $(document).ready(function() {
     });
 
     const command_list = Object.keys(commands);
-    console.log('Command list:', command_list);
-
-    const formatted_list = command_list.map(cmd => {
-        console.log('Formatting command:', cmd);
-        return `<white class="command">${cmd}</white>`;
-    });
-    console.log('Formatted list:', formatted_list);
-
+    const formatted_list = command_list.map(cmd => `<white class="command">${cmd}</white>`);
     const help = formatter.format(formatted_list);
-    console.log('Help text:', help);
 
     const any_command_re = new RegExp(`^\s*(${command_list.join('|')})`);
     $.terminal.new_formatter([any_command_re, '<white>$1</white>']);
 
     const re = new RegExp(`^\s*(${command_list.join('|')})(\s?.*)`);
-
     $.terminal.new_formatter([re, function(_, command, args) {
         return `<white>${command}</white><aqua>${args}</aqua>`;
     }]);
-
-// we use programming jokes so it fit better
-// developer portfolio
-const url = 'https://v2.jokeapi.dev/joke/Programming';
-this.echo(data.joke, { delay: 50, typing: true });
 });
