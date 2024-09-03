@@ -6,8 +6,9 @@ $(document).ready(function() {
         education: [
             '',
             '<white>education</white>',
-            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai">Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
-            '* <a href="https://www.northeastern.edu/">Northeastern University</a> Masters of Science <yellow>"Information Systems"</yellow> 2023-2025',
+    
+            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai>Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
+            '* <a href="https://www.northeastern.edu/">Northeastern University</a> Masters of Science <yellow>"Informaton Systems"</yellow> 2023-2025',
             ''
         ],
         experience: [
@@ -30,7 +31,7 @@ $(document).ready(function() {
             [
                 ['All the Earthquakes',
                  'https://github.com/baiganas/capstone/blob/main/Anasbaig_002837748_Capstone.ipynb',
-                 'Analysis and Prediction of Earthquakes Using Decision Tree, Regression, XGboost and Random Forest'
+                 'Analysis and Prediction of Earthquakes Using Decsion Tree, Regression, XGboost and Random Forest'
                 ],
                 ['Musify',
                  'https://github.com/anasbaig10/spotify_clone',
@@ -47,7 +48,7 @@ $(document).ready(function() {
                 ['AWS-DataEngineering',
                 'https://github.com/anasbaig10/AWS-DataEngineering',
                 'Doing an ETL on Spotify 2023 Music data using Kafka and publishing on AWS also Leveraging services like S3, Athena, Glue, EC2'
-                ],
+                   ],
             ].map(([name, url, description = '']) => {
                 return `* <a href="${url}">${name}</a> &mdash; <white>${description}</white>`;
             }),
@@ -56,23 +57,49 @@ $(document).ready(function() {
         skills: [
             '',
             '<white>languages</white>',
+    
             [
-                'JavaScript', 'TypeScript', 'REST API', 'JQuery', 'Python', 'SQL', 'PHP', 'Bash', 'ReactJs', 'Big Query', 'CI/CD', 'Agile Scrum'
+                'JavaScript',
+                'TypeScript',
+                'REST API',
+                'JQuery',
+                'Python',
+                'SQL',
+                'PHP',
+                'Bash',
+                'ReactJs',
+                'Big Query',
+                'CI/CD',
+                'Agile Scrum'
             ].map(lang => `* <yellow>${lang}</yellow>`),
             '',
             '<white>libraries</white>',
             [
-                'React.js', 'Redux', 'Jest', 'Node.js', 'ES6', 'Data Visualization', 'Postman', 'Scikit-learn', 'Keras', 'Matplotlib'
+                'React.js',
+                'Redux',
+                'Jest',
+                'Node.js',
+                'ES6',
+                'Data Visualization',
+                'Postman',
+                'Scikit-learn',
+                'Keras',
+                'Matplotlib'
+
             ].map(lib => `* <green>${lib}</green>`),
             '',
             '<white>tools</white>',
             [
-                'Docker', 'git', 'GNU/Linux', 'AWS', 'GCP', 'Snowflake'
-            ].map(tool => `* <blue>${tool}</blue>`),
+                'Docker',
+                'git',
+                'GNU/Linux',
+                'AWS',
+                'GCP',
+                'Snowflake'
+            ].map(lib => `* <blue>${lib}</blue>`),
             ''
         ].flat()
     };
-
     const commandsWithDescriptions = [
         { name: 'help', description: 'Display available sections.' },
         { name: 'cd', description: 'Change the current directory.' },
