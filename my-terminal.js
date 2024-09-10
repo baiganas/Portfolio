@@ -6,8 +6,7 @@ $(document).ready(function() {
         education: [
             '',
             '<white>education</white>',
-    
-            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai>Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
+            '* <a href="https://en.wikipedia.org/wiki/University_of_Mumbai">Mumbai University</a> <yellow>"Bachelors of Engineering in Information Systems "</yellow> 2017 - 2021',
             '* <a href="https://www.northeastern.edu/">Northeastern University</a> Masters of Science <yellow>"Informaton Systems"</yellow> 2023-2025',
             ''
         ],
@@ -48,7 +47,7 @@ $(document).ready(function() {
                 ['AWS-DataEngineering',
                 'https://github.com/anasbaig10/AWS-DataEngineering',
                 'Doing an ETL on Spotify 2023 Music data using Kafka and publishing on AWS also Leveraging services like S3, Athena, Glue, EC2'
-                   ],
+                ],
             ].map(([name, url, description = '']) => {
                 return `* <a href="${url}">${name}</a> &mdash; <white>${description}</white>`;
             }),
@@ -57,7 +56,6 @@ $(document).ready(function() {
         skills: [
             '',
             '<white>languages</white>',
-    
             [
                 'JavaScript',
                 'TypeScript',
@@ -85,7 +83,6 @@ $(document).ready(function() {
                 'Scikit-learn',
                 'Keras',
                 'Matplotlib'
-
             ].map(lib => `* <green>${lib}</green>`),
             '',
             '<white>tools</white>',
@@ -101,7 +98,6 @@ $(document).ready(function() {
         ].flat()
     };
 
-    // Create a list of commands with descriptions
     const commandsWithDescriptions = [
         { name: 'help', description: 'Display the list of available commands.' },
         { name: 'echo', description: 'Echo the input text back to you.' },
@@ -123,32 +119,24 @@ $(document).ready(function() {
         async joke() {
             const res = await fetch(url);
             const data = await res.json();
-            (async () => {
-                if (data.type == 'twopart') {
-                    // we set clear the prompt to don't have any
-                    // flashing between animations
-                    const prompt = this.get_prompt();
-                    this.set_prompt('');
-                    // as said before in every function, passed directly
-                    // to terminal, you can use `this` object
-                    // to reference terminal instance
-                    await this.echo(`Q: ${data.setup}`, {
-                        delay: 50,
-                        typing: true
-                    });
-                    await this.echo(`A: ${data.delivery}`, {
-                        delay: 50,
-                        typing: true
-                    });
-                    // we restore the prompt
-                    this.set_prompt(prompt);
-                } else if (data.type === 'single') {
-                    await this.echo(data.joke, {
-                        delay: 50,
-                        typing: true
-                    });
-                }
-            })();
+            if (data.type == 'twopart') {
+                const prompt = this.get_prompt();
+                this.set_prompt('');
+                await this.echo(`Q: ${data.setup}`, {
+                    delay: 50,
+                    typing: true
+                });
+                await this.echo(`A: ${data.delivery}`, {
+                    delay: 50,
+                    typing: true
+                });
+                this.set_prompt(prompt);
+            } else if (data.type === 'single') {
+                await this.echo(data.joke, {
+                    delay: 50,
+                    typing: true
+                });
+            }
         },
         cd(dir = null) {
             const dirs = Object.keys(directories);
@@ -166,7 +154,6 @@ $(document).ready(function() {
             const dirs = Object.keys(directories);
             if (dir) {
                 if (dir.match(/^~\/?$/)) {
-                    // ls ~ or ls ~/
                     print_dirs();
                 } else if (dir.startsWith('~/')) {
                     const path = dir.substring(2);
@@ -206,12 +193,21 @@ $(document).ready(function() {
         }
     };
 
-    
     function print_dirs() {
         const dirs = Object.keys(directories);
         term.echo(dirs.map(dir => {
             return `<u><blue class="directory">${dir}</blue></u>`;
         }).join('\n'), { raw: true });
+    }
+
+    function displayMainSections() {
+        const sections = Object.keys(directories);
+        const sectionList = sections.map(section => 
+            `<u><blue class="directory">${section}</blue></u>`
+        ).join('\n');
+        
+        term.echo('Available sections:\n' + sectionList, { raw: true });
+        term.echo('\nClick on a section to explore or type "cd ~/section_name" (e.g., cd ~/education)');
     }
 
     const font = 'Slant';
@@ -248,18 +244,7 @@ $(document).ready(function() {
     term.on('click', '.directory', function() {
         const dir = $(this).text();
         term.exec(`cd ~/${dir}`);
-    });
-
-    term.on('click', '.command', function() {
-        const command = $(this).text();
-        term.exec(command);
-     });
-
-     //edit
-    term.on('click', '.directory', function() {
-        const dir = $(this).text();
-        term.exec(`cd ~/${dir}`);
-        term.exec('ls'); // Automatically list contents after changing directory
+        term.exec('ls');
     });
 
     term.on('click', '.command', function() {
@@ -285,10 +270,6 @@ $(document).ready(function() {
     function trim(str) {
         return str.replace(/[\n\s]+$/, '');
     }
-
-    const commandsStyled = commandsWithDescriptions.map(cmd => {
-        return `<white class="command">${cmd.name}</white>: ${cmd.description}`;
-    }).join('\n');
 
     function ready() {
         console.log('Ready function called');
@@ -339,8 +320,5 @@ Explore my portfolio by typing 'help' or using the commands above:
         return `<white>${command}</white><aqua>${args}</aqua>`;
     }]);
 
-// we use programming jokes so it fit better
-// developer portfolio
-const url = 'https://v2.jokeapi.dev/joke/Programming';
-this.echo(data.joke, { delay: 50, typing: true });
+    const url = 'https://v2.jokeapi.dev/joke/Programming';
 });
